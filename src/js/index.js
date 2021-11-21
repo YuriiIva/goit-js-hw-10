@@ -53,8 +53,7 @@ const handleCountryInput = e => {
       }
       if (data.length < 10 && data.length > 1) {
         createUsersMarkupLi(data);
-      }
-      if (data.length === 1) {
+      } else {
         createMarkupList(data);
       }
     })
