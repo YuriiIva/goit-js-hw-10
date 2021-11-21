@@ -12,7 +12,7 @@ const refs = {
   list: document.querySelector('.country-list'),
   info: document.querySelector('.country-info'),
 };
-
+console.log(refs.input);
 const createUsersMarkupLi = obj => {
   const markup = obj
     .map(({ name: { official } }) => `<li class="js-item"><p>${official}</p></li>`)
