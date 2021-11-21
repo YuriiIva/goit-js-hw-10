@@ -17,7 +17,7 @@ const createUsersMarkupLi = obj => {
   const markup = obj
     .map(({ name: { official } }) => `<li class="js-item"><p>${official}</p></li>`)
     .join('');
-  console.log(markup);
+
   refs.list.innerHTML = markup;
 };
 
