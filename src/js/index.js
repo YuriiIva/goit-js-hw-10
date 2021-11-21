@@ -13,8 +13,6 @@ const refs = {
   info: document.querySelector('.country-info'),
 };
 
-// fetchCountries().then(users => createUsersMarkupLi(users));
-
 const createUsersMarkupLi = obj => {
   const markup = obj
     .map(({ name: { official } }) => `<li class="js-item"><p>${official}</p></li>`)
@@ -25,9 +23,9 @@ const createUsersMarkupLi = obj => {
 
 const createMarkupList = dataList => {
   const markupList = dataList
-    .map(
-      ({ name: { official }, capital, population, flags: { svg }, languages }) =>
-        `<div class ="js-list">
+    .map(({ name: { official }, capital, population, flags: { svg }, languages }) => {
+      const languagesKey = Object.values(languages).join(',');
+      return `<div class ="js-list">
         <div>
         <img src="${svg}" alt="flag" width="20" class ="js-img">
         </div>
@@ -36,17 +34,16 @@ const createMarkupList = dataList => {
 <ul>
   <li class="js-item">Capital:<span class ="js-icon">${capital}</span></li>
   <li class="js-item">Population:<span class ="js-icon">${population}</span></li>
-  <li class="js-item">Languages:<span class ="js-icon">${languages}</span></li>
+  <li class="js-item">Languages:<span class ="js-icon">${languagesKey}</span></li>
 </ul>
-`,
-    )
+`;
+    })
     .join('');
   refs.info.innerHTML = markupList;
 };
 
 const handleCountryInput = e => {
   const inputName = e.target.value.trim();
-  // console.log(inputName);
 
   fetchCountries(inputName)
     .then(data => {
@@ -65,8 +62,5 @@ const handleCountryInput = e => {
       notiflix.Notify.failure(`Oops, there is no country with that name`);
     });
 };
-// const debounce_fun = _.debounce(function () {
-//   console.log('Function debounced after 1000ms!');
-// }, 1000);
 
 refs.input.addEventListener('input', debounce(handleCountryInput, DEBOUNCE_DELAY));
