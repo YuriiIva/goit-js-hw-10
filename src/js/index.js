@@ -1,6 +1,8 @@
 import '../css/styles.css';
-import lodash from 'lodash.debounce';
+import debounce from 'lodash.debounce';
+
 import notiflix from 'notiflix';
+console.log(notiflix);
 import fetchCountries from './services/api-services';
 
 const DEBOUNCE_DELAY = 300;
@@ -14,19 +16,29 @@ const refs = {
 // fetchCountries().then(users => createUsersMarkupLi(users));
 
 const createUsersMarkupLi = obj => {
-  const markup = obj.map(({ name }) => '<l><p>${name.official}</p></l>').jone('');
+  const markup = obj.map(({ name: { official } }) => `<li><p>${official}</p></li>`).join('');
   console.log(markup);
   refs.list.innerHTML = markup;
 };
 
 const handleCountryInput = e => {
-  const inputName = e.currentTarget.value;
+  const inputName = e.target.value.trim();
+  // console.log(inputName);
 
   fetchCountries(inputName)
-    .then(createUsersMarkupLi)
+    .then(data => {
+      if (data.length > 10) {
+        alert(`Oops,more 10`);
+        return;
+      }
+      createUsersMarkupLi(data);
+    })
     .catch(err => {
-      alert(`Oops, there is no country with that name`);
+      notiflix.Notify.failure(`Oops, there is no country with that name`);
     });
 };
+// const debounce_fun = _.debounce(function () {
+//   console.log('Function debounced after 1000ms!');
+// }, 1000);
 
-refs.input.addEventListener('input', handleCountryInput);
+refs.input.addEventListener('input', debounce(handleCountryInput, DEBOUNCE_DELAY));
