@@ -48,7 +48,7 @@ const handleCountryInput = e => {
   fetchCountries(inputName)
     .then(data => {
       if (data.length > 10) {
-        notiflix.Notify.failure(`Too many matches found. Please enter a more specific name.`);
+        notiflix.Notify.info(`Too many matches found. Please enter a more specific name.`);
         return;
       }
       if (data.length < 10 && data.length > 1) {
