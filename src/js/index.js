@@ -17,7 +17,7 @@ const createUsersMarkupLi = obj => {
   const markup = obj
     .map(({ name: { official } }) => `<li class="js-item"><p>${official}</p></li>`)
     .join('');
-
+  refs.info.innerHTML = '';
   refs.list.innerHTML = markup;
 };
 
@@ -39,6 +39,7 @@ const createMarkupList = dataList => {
 `;
     })
     .join('');
+  refs.list.innerHTML = '';
   refs.info.innerHTML = markupList;
 };
 
@@ -53,11 +54,16 @@ const handleCountryInput = e => {
       }
       if (data.length < 10 && data.length > 1) {
         createUsersMarkupLi(data);
-      } else {
+      }
+      if (data.length === 1) {
         createMarkupList(data);
+      } else {
+        return false;
       }
     })
     .catch(err => {
+      refs.info.innerHTML = '';
+      refs.list.innerHTML = '';
       notiflix.Notify.failure(`Oops, there is no country with that name`);
     });
 };
