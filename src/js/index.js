@@ -2,7 +2,7 @@ import '../css/styles.css';
 import debounce from 'lodash.debounce';
 
 import notiflix from 'notiflix';
-console.log(notiflix);
+
 import fetchCountries from './services/api-services';
 
 const DEBOUNCE_DELAY = 300;
@@ -15,13 +15,21 @@ const refs = {
 
 const createUsersMarkupLi = obj => {
   const markup = obj
-    .map(({ name: { official } }) => `<li class="js-item"><p>${official}</p></li>`)
+    .map(
+      ({ name: { official }, lags: { svg } }) => `<div class ="js-list">
+        <div>
+        <img src="${svg}" alt="flag" width="20" class ="js-img">
+        </div>
+        <h1>${official}</h1>
+        </div>`,
+    )
     .join('');
   refs.info.innerHTML = '';
   refs.list.innerHTML = markup;
 };
 
 const createMarkupList = dataList => {
+  console.log(dataList);
   const markupList = dataList
     .map(({ name: { official }, capital, population, flags: { svg }, languages }) => {
       const languagesKey = Object.values(languages).join(',');
